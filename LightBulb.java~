@@ -1,0 +1,142 @@
+// LightBulb
+// May 28, 2021
+// ICS3U1, Dip
+// Make a grid of lightbulbs, user can toggle lightbulbs on or off but the bulbs around them will switch states, goal is to turn all bulbs off
+
+import java.util.Scanner;
+import java.util.Random;
+public class LightBulb {
+  public static void main(String[] args) {
+    Scanner in = new Scanner(System.in);
+    Random rand = new Random();
+    
+    
+    //This block of code is generating the grid of bulbs and initializing variables
+    int[][] setup = new int[5][5];
+    int upperbound = 2;
+    int row;
+    int column;
+    boolean win = false;
+    int check = 1;
+    
+    System.out.println("    1 2 3 4 5"); //prints the column numbers for convenience
+    System.out.println("    | | | | |");
+    for (int i = 0; i < 5; i++) {
+      System.out.print(i+1 + " - "); //prints the row numbers for convenience 
+      for (int j = 0; j < 5; j++) {
+        setup[i][j] = rand.nextInt(upperbound);
+        System.out.print(setup[i][j] + " ");
+      }
+      System.out.println();
+    }
+    
+    //Explaning the game
+    System.out.println();
+    System.out.println("The 1's on the grid represent activated lightbulbs");
+    System.out.println("You can change the state of any bulb on the grid");
+    System.out.println("Simply enter the coordinates of the bulb you want to change when prompted");
+    System.out.println("If you accidently type the wrong coordinates, you can re-enter it to revert back");
+    System.out.println("But be careful, the bulbs surrounding that bulb will also change states!");
+    System.out.println("More specifically, the bulbs touching the left, right, top, and bottom of the bulb will also change");
+    System.out.println("Try to turn off all of the lights, Good Luck!");
+    System.out.println();
+    
+    //Creating the code for switching the bulbs (0 = off, 1 = on)
+    
+    do {
+      System.out.print("Enter the row of the bulb: ");
+      row = in.nextInt();
+      row = row-1; //accounting for the fact that were supposed to start at 0 and not 1
+      System.out.print("Enter the column of the bulb: ");
+      column = in.nextInt();
+      column = column-1; //accounting for the fact that were supposed to start at 0 and not 1
+      
+      //if the user puts in a coordinate that doesnt exist
+      if (row < 0 || column < 0 || row > 5 || column > 5) {
+        System.out.println("Please enter a valid number, a number between 1 and 5 (inclusive)"); 
+      }
+      else {
+        
+        //changing states of bulb
+        if (setup[row][column] == 0) {
+          setup[row][column] = 1;
+        }
+        else if (setup[row][column] == 1) {
+          setup[row][column] = 0;
+        }
+        
+        //changing states of surrounding bulbs
+        
+        //row-1
+        if (row != 0) {
+          if (setup[row-1][column] == 0) {
+            setup[row-1][column] = 1;
+          }
+          else if (setup[row-1][column] == 1) {
+            setup[row-1][column] = 0;
+          }
+        }
+        
+        //column+1
+        if (column != 4) {
+          if (setup[row][column+1] == 0) {
+            setup[row][column+1] = 1;
+          }
+          else if (setup[row][column+1] == 1) {
+            setup[row][column+1] = 0;
+          }
+        }
+        
+        //row+1
+        if (row != 4) {
+          if (setup[row+1][column] == 0) {
+            setup[row+1][column] = 1;
+          }
+          else if (setup[row+1][column] == 1) {
+            setup[row+1][column] = 0;
+          }
+        }
+        
+        //column-1
+        if (column != 0) {
+          if (setup[row][column-1] == 0) {
+            setup[row][column-1] = 1;
+          }
+          else if (setup[row][column-1] == 1) {
+            setup[row][column-1] = 0;
+          }
+        }
+        
+        
+        //reprinting new grid
+        System.out.println("    1 2 3 4 5"); //prints the column numbers for convenience
+        System.out.println("    | | | | |");
+        for (int i = 0; i < 5; i++) {
+          System.out.print(i+1 + " - "); //prints the row numbers for convenience 
+          for (int j = 0; j < 5; j++) {
+            System.out.print(setup[i][j] + " ");
+          }
+          System.out.println();
+        }
+        
+        for (int i = 0; i < 5; i++) {
+          for (int j = 0; j < 5; j++) {
+            if (setup[i][j] != 0) {
+              check++;
+            }
+          }
+        }
+        if (check == 0) {
+          win = true;
+        }
+        check = 0;
+      }
+    }while (win == false); 
+    
+    System.out.println("Good job");
+    System.out.println("Ice-Cream-Man approves!");
+    System.out.println("This is a ticket to free ice-cream and fixed bones from Ice-Cream-Man");
+    System.out.println("Screenshot and send to Ms.Hwang or Ice-Cream-Man himself to use");
+    
+  }
+}
